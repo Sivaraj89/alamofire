@@ -9,6 +9,7 @@
 import UIKit
 
 class parserClass: NSObject {
+    //Parser Method Call
     func parseObj(dict:Dictionary<AnyHashable, Any>) -> Array<Any> {
         var anarray :Array<Any> = []
        let rowarray = dict["rows"] as! Array<Any>
@@ -30,7 +31,12 @@ class parserClass: NSObject {
             }else{
                 obj.image = ""
             }
-            anarray.append(obj)
+            if (obj.name == "" && obj.descrip == "" && obj.image == "")
+            {
+                
+            }else{
+                anarray.append(obj)
+            }
         }
      return anarray
     }

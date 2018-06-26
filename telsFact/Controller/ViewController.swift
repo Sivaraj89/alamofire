@@ -13,7 +13,7 @@ class ViewController: UIViewController,serviceCalls{
     let parse = parserClass()
     var obj = objectCollected()
     let webIns = WebService()
-    var spinner = UIActivityIndicatorView()
+    var spinner : UIActivityIndicatorView!
     
     var collectedArray:Array<Any> = []
     
@@ -39,26 +39,35 @@ class ViewController: UIViewController,serviceCalls{
         
     }
     
+    //protocol method
+    
     func serviceDict(dict: Dictionary<AnyHashable, Any>) {
-        spinner.stopAnimating()
         self.title = (dict["title"] as! String)
         collectedArray = parse.parseObj(dict: dict)
         first.collectedItems.delegate = self
         first.collectedItems.dataSource = self
         first.refressButton.addTarget(self, action: #selector(self.webCallInitiated), for: .touchDown)
+        dismiss(animated: false, completion: nil)
     }
     
+  
+    
+    
+    
     @objc func webCallInitiated() {
-        spinner.activityIndicatorViewStyle = .gray
-        spinner.hidesWhenStopped = true
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(spinner)
-        spinner.startAnimating()
-        let x = NSLayoutConstraint(item: spinner, attribute: .centerX, relatedBy: .equal, toItem: self.view, attribute: .centerX, multiplier: 1.0, constant: 0)
-        let y = NSLayoutConstraint(item: spinner, attribute: .centerY, relatedBy: .equal, toItem: self.view, attribute: .centerY, multiplier: 1.0, constant: 0)
-        let width = NSLayoutConstraint(item: spinner, attribute: .width, relatedBy: .equal, toItem: self.view, attribute: .width, multiplier: 0.5, constant: 0)
-        let height = NSLayoutConstraint(item: spinner, attribute: .bottom, relatedBy: .equal, toItem: self.view, attribute: .bottom, multiplier: 0.5, constant: 0)
-        self.view.addConstraints([x, y, width, height])
+        
+  // Added Loading Alert
+        let alert = UIAlertController(title: nil, message: "Please wait...", preferredStyle: .alert)
+        alert.view.tintColor = UIColor.black
+        let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        loadingIndicator.startAnimating();
+        
+        alert.view.addSubview(loadingIndicator)
+        present(alert, animated: true, completion: nil)
+        
+    // Web Call Initiated
         webIns.webCall(webUrl: "https://dl.dropboxusercontent.com/s/2iodh4vg0eortkl/facts.json")
     }
     override func didReceiveMemoryWarning() {
@@ -69,6 +78,7 @@ class ViewController: UIViewController,serviceCalls{
     
 }
 
+// TableView Delegates
 
 extension ViewController : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -86,7 +96,9 @@ extension ViewController : UITableViewDelegate,UITableViewDataSource{
         cell?.textLabel?.numberOfLines = 0
         cell?.detailTextLabel?.text = obj.descrip
         cell?.detailTextLabel?.numberOfLines = 0
+        cell?.selectionStyle = .none
         let url = URL(string: obj.image!)
+        // SdwebImage
         cell?.imageView?.sd_setImage(with: url, placeholderImage: UIImage(named: ""),options: SDWebImageOptions(rawValue: 0), completed: { image, error, cacheType, imageURL in
         })
         

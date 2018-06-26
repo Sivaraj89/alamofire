@@ -18,6 +18,7 @@ class WebService: NSObject {
     var service: serviceCalls?
    func webCall(webUrl:String) {
      let url = URL(string:webUrl)
+    // Alamofire WebCall
     Alamofire.request(url!).responseJSON { response in
         print("Response: \(String(describing: response.data))") // http url response
         if(response.data == nil)

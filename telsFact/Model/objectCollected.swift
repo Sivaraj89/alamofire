@@ -9,6 +9,7 @@
 import UIKit
 
 class objectCollected: NSObject {
+    // object Collected
     var name:String?
     var descrip: String?
     var image: String?
