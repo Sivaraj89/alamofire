@@ -62,7 +62,7 @@ class ViewController: UIViewController,serviceCalls{
         let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: self.view.frame.size.width, height: self.view.frame.size.height))
         loadingIndicator.hidesWhenStopped = true
         loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
-        loadingIndicator.startAnimating();
+        //loadingIndicator.startAnimating();
         
         alert.view.addSubview(loadingIndicator)
         present(alert, animated: true, completion: nil)
