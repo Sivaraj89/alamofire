@@ -20,10 +20,8 @@ class ViewController: UIViewController,serviceCalls{
     override func viewDidLoad() {
         super.viewDidLoad()
         webIns.service = self
-        self.view.backgroundColor = UIColor.black
+        self.view.backgroundColor = UIColor.white
         self.navigationController?.navigationBar.backgroundColor = UIColor.white
-        self.view.addSubview(first)
-        self.addConstraints()
         self.webCallInitiated()
         
         // Do any additional setup after loading the view, typically from a nib.
@@ -44,10 +42,12 @@ class ViewController: UIViewController,serviceCalls{
     func serviceDict(dict: Dictionary<AnyHashable, Any>) {
         self.title = (dict["title"] as! String)
         collectedArray = parse.parseObj(dict: dict)
-        first.collectedItems.delegate = self
-        first.collectedItems.dataSource = self
         first.refressButton.addTarget(self, action: #selector(self.webCallInitiated), for: .touchDown)
         dismiss(animated: false, completion: nil)
+        first.collectedItems.delegate = self
+        first.collectedItems.dataSource = self
+        self.view.addSubview(first)
+        self.addConstraints()
     }
     
   
